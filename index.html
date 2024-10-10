@@ -1,43 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oscar Morke - Product & Community</title>
     <style>
-        body,
-        html {
+        body, html {
             margin: 0;
             padding: 0;
             height: 100%;
             background-color: #1e1e1e;
             color: #d4d4d4;
             font-family: 'Courier New', monospace;
-            font-size: 16px;
-            line-height: 1.6;
-            display: flex;
-            justify-content: center;
-            overflow: hidden;
+            font-size: 18px;
+            line-height: 1.8;
+            overflow-x: hidden;
         }
-
         #editor {
             width: 100%;
             max-width: 800px;
-            height: 100%;
-            overflow-y: scroll;
+            height: 100vh;
+            overflow-y: auto;
             padding: 40px;
             box-sizing: border-box;
             white-space: pre-wrap;
             word-wrap: break-word;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
+            margin: 0 auto;
         }
-
-        #editor::-webkit-scrollbar {
-            display: none;
-        }
-
         #cursor {
             display: inline-block;
             width: 10px;
@@ -45,31 +34,67 @@
             background-color: #d4d4d4;
             animation: blink 0.7s infinite;
         }
-
         @keyframes blink {
-            0% {
-                opacity: 0;
-            }
-
-            50% {
-                opacity: 1;
-            }
-
-            100% {
-                opacity: 0;
-            }
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
         }
-
         .clickable {
             color: #569cd6;
             cursor: pointer;
             text-decoration: underline;
         }
+        #console-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #000;
+            color: #0f0;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        #console {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 600px;
+            height: 400px;
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 20px;
+            font-family: monospace;
+            overflow-y: auto;
+            z-index: 1001;
+        }
+        #console-input {
+            width: 100%;
+            background-color: #000;
+            color: #0f0;
+            border: none;
+            outline: none;
+            font-family: monospace;
+        }
     </style>
 </head>
-
 <body>
     <div id="editor"></div>
+    <button id="console-button">&gt;_</button>
+    <div id="console">
+        <div id="console-output"></div>
+        <input type="text" id="console-input" placeholder="Enter command...">
+    </div>
     <script>
         const text = `Oscar Morke
 
@@ -107,8 +132,13 @@ From Stockholm to Web3, fueled by coffee and dreams of sunny beaches`;
 
         function typeWriter() {
             if (i < text.length) {
-                editor.innerHTML += text.charAt(i);
+                if (text.charAt(i) === '\n') {
+                    editor.innerHTML += '<br>';
+                } else {
+                    editor.innerHTML += text.charAt(i);
+                }
                 i++;
+                editor.scrollTop = editor.scrollHeight;
                 setTimeout(typeWriter, 10);
             } else {
                 editor.innerHTML += '<span id="cursor"></span>';
@@ -127,8 +157,48 @@ From Stockholm to Web3, fueled by coffee and dreams of sunny beaches`;
             personal.style.display = personal.style.display === 'none' ? 'inline' : 'none';
         }
 
+        let consoleOpen = false;
+
+        function toggleConsole() {
+            const console = document.getElementById('console');
+            consoleOpen = !consoleOpen;
+            console.style.display = consoleOpen ? 'block' : 'none';
+            if (consoleOpen) {
+                document.getElementById('console-input').focus();
+            }
+        }
+
+        function handleCommand(command) {
+            const output = document.getElementById('console-output');
+            output.innerHTML += `> ${command}<br>`;
+            
+            switch(command.toLowerCase()) {
+                case 'help':
+                    output.innerHTML += 'Available commands: help, projects, contact, skills<br>';
+                    break;
+                case 'projects':
+                    output.innerHTML += 'Projects: Anotherblock, Wave Radio, Contrib<br>';
+                    break;
+                case 'contact':
+                    output.innerHTML += 'Contact: Twitter @Morkeeth, LinkedIn /in/oscarmorke<br>';
+                    break;
+                case 'skills':
+                    output.innerHTML += 'Skills: Product Management, Community Building, Blockchain, Entrepreneurship<br>';
+                    break;
+                default:
+                    output.innerHTML += 'Command not recognized. Type "help" for available commands.<br>';
+            }
+        }
+
+        document.getElementById('console-button').addEventListener('click', toggleConsole);
+        document.getElementById('console-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleCommand(this.value);
+                this.value = '';
+            }
+        });
+
         typeWriter();
     </script>
 </body>
-
 </html>
