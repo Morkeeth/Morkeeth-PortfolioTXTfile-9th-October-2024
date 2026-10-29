@@ -1,16 +1,24 @@
-# Morkeeth Portfolio, 9 October 2024
+# Oscar portfolio experiment
 
-**A one-page portfolio for Oscar Morke styled as a text editor with a blinking cursor and a small console that answers `help`, `projects`, `contact` and `skills`.**
+## TLDR
 
-- Problem: a CV reads the same everywhere; this one reads like a terminal.
-- For: anyone who wants to know what Oscar has worked on (Anotherblock, Wave Radio, Contrib) and how to reach him.
-- What it is: plain HTML, CSS and JavaScript served by a tiny Node `http` server, built on Replit. The repo description says it was generated with Claude.
-- Early experiment, October 2024.
+A personal portfolio built from HTML, CSS and JavaScript with a Node server.<br>
+For readers browsing Oscar's work and developers studying this portfolio experiment.<br>
+The source is the reviewable artifact; the repository does not establish current deployment or adoption.
 
-## Run it
+## Review and pick up the work
 
-```bash
-npm start
-```
+[Agent guide](AGENTS.md)
 
-Then open http://localhost:8080.
+Start with the linked source, setup and evidence. Recorded demos and sample data keep their original scope; use the repository instructions for a fresh run.
+
+## Inspect this checkout
+
+- [`index.html`](index.html): browser entry page.
+- [`script.js`](script.js): browser behavior.
+- [`style.css`](style.css): page styling.
+
+
+## License and data boundaries
+
+This checkout has no root license file establishing general reuse rights. Data, provider responses, media, fonts and other third-party assets may have separate terms. Repository access alone does not grant rights to those materials. 
