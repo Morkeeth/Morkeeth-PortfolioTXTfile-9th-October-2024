@@ -4,7 +4,9 @@ Read README.md first. This guide describes the repository source, not an authori
 
 ## Code map
 
-
+- `index.html`: inspect this source before executing it.
+- `script.js`: inspect this source before executing it.
+- `server.js`: inspect this source before executing it.
 
 Configuration and declared commands: `package.json`. Read them before installing dependencies.
 
